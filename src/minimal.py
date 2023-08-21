@@ -87,27 +87,37 @@ class Minimal:
         # Выполняем команды. Бюджет процентов на все команды 30%. С каждой выполненной командой увеличиваем
         # заполнение прогресс бара на 30/количество_команд.
         for i in range(0, commands_list_lines_count):
-            # Выполняем команду
-            os.system(commands_list_lines[i] + " &> /dev/null")
-            # Увеличиваем процент выполнения
+            if commands_list_lines[i].split(" ")[0] == "nosu":
+                # Проверяем наличие файла nosu.txt рядом с файлом author.py
+                if os.path.exists("nosu.txt") != True:
+                    # Если файла нет, то создаём его
+                    os.system("touch nosu.txt")
+                # Открываем файл и добавляем в него команду без nosu
+                nosu_file = open("nosu.txt", "a")
+                nosu_file.write(commands_list_lines[i].replace("nosu ", ""))
+                nosu_file.close()
+            else:
+                # Выполняем команду
+                os.system(commands_list_lines[i] + " &> /dev/null")
             self.progress_bar(70 + (30 / commands_list_lines_count * i), False)
-
 
 
     # Инициализация установки
     def initialization(self):
         print("Запуск установки minimal")
-        self.progress_bar(0, False)
+        self.progress_bar(0)
         self.install_packages()
         self.run_commands()
         self.progress_bar(100)
         
         print("Установка пакета minimal завершена успешно!")
-        print("Настоятельно рекомендуем перезагрузить компьютер для корректной работы пакета minimal.")
-        print("Перезагрузить компьютер сейчас? (Да/нет)")
-        answer = input()
-        if answer == "Да" or answer == "да" or answer == "":
-            os.system("reboot")
-        else:
-            print("Перезагрузку можно выполнить в любое удобное время командой reboot.")
+        # Если есть файл nosu.txt, то не предлагаем перезагрузку
+        if os.path.exists("nosu.txt") != True:
+            print("Настоятельно рекомендуем перезагрузить компьютер для корректной работы пакета author.")
+            print("Перезагрузить компьютер сейчас? (Да/нет)")
+            answer = input()
+            if answer == "Да" or answer == "да" or answer == "":
+                os.system("reboot")
+            else:
+                print("Перезагрузку можно выполнить в любое удобное время командой reboot.")
 
