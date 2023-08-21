@@ -1,3 +1,5 @@
 control sudowheel enabled
 ln -s /etc/fonts/conf.avail/10-scale-bitmap-fonts.conf /etc/fonts/conf.d/
 flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+nosu setwallpaper /author/file/altaiwallpaper.jpg
+nosu gsettings set org.gnome.desktop.background picture-uri file:///author/file/altaiwallpaper.jpg
