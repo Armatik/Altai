@@ -3,7 +3,6 @@ install gnome-text-editor
 install eog
 install gpaste
 install gnome-shell-extension-gpaste
-install neofetch
 install gnome-software
 install flatpak
 install flatpak-repo-flathub

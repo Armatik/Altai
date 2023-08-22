@@ -34,8 +34,14 @@ class Nosu():
             if nosu_lines[i].split(" ")[0] == "setwallpaper":
                 # Получаем путь к текущей директории
                 current_dir = os.getcwd()
-            os.system(nosu_lines[i])
-            self.progress_bar(3 + i * 96 / nosu_lines_count)
+                # Получаем путь к файлу с обои
+                wallpaper_path = current_dir + nosu_lines[i].split(" ")[1]
+                # Устанавливаем обои
+                os.system("gsettings set org.gnome.desktop.background picture-uri " + wallpaper_path)
+                os.system("gsettings set org.gnome.desktop.screensaver picture-uri-dark " + wallpaper_path)
+            else:
+                os.system(nosu_lines[i])
+                self.progress_bar(3 + i * 96 / nosu_lines_count)
 
         # Удаляем файл nosu.txt
         os.system("rm nosu.txt")
