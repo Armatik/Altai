@@ -11,13 +11,9 @@ def check_su_privilages():
     if os.geteuid() != 0:
         # Проверяем наличие файла nosu.txt
         if os.path.isfile("nosu.txt"):
-            # Если файл есть, то запускаем nosu.start
-            # nosu = Nosu()
-            # nosu.nosu_start()
-
             core = Core()
             core.work_with_command("nosu.txt")
-            # Если есть файл nosu.txt, то не предлагаем перезагрузку
+
             print("Настоятельно рекомендуем перезагрузить компьютер для корректной работы пакета author.")
             print("Перезагрузить компьютер сейчас? (Да/нет)")
             answer = input()
@@ -25,7 +21,9 @@ def check_su_privilages():
                 os.system("sudo reboot")
             else:
                 print("Перезагрузку можно выполнить в любое удобное время командой reboot.")
-        sys.exit(1)
+        else:
+            print("Для корректной работы Алтая требуются права суперпользователя. Проверьте введённый пароль и попробуйте снова.")
+            sys.exit(1)
 
 
 # Press the green button in the gutter to run the script.

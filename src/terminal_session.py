@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 
 import default
 
@@ -75,6 +76,7 @@ class TerminalSession:
                 os.system("reboot")
             else:
                 print("Перезагрузку можно выполнить в любое удобное время командой reboot.")
+                time.sleep(5)
 
 
 
