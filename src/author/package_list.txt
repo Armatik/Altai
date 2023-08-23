@@ -11,3 +11,5 @@ install gnome-shell-extension-blur-my-shell
 install gnome-shell-extension-gsconnect
 install gnome-extension-manager
 install celluloid
+install samba
+install gvfs-shares
