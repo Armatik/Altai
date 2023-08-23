@@ -116,21 +116,23 @@ class Core:
             return
 
         # Удаляем выбранные пакеты. Бюджет процентов на все пакеты 25%. С каждым удалённым пакетом увеличиваем
-        print("Собираюсь удалить пакеты: " + str(remove_packages))
-        print("Подтвердите удаление пакетов Да\нет")
-        answer = input().lower
-        if answer == "да" or answer == "д" or answer == "y" or answer == "":
-            os.system("clear")
-            task_name = "Удаляю пакеты"
-            print()
-            for i in range(0, len(remove_packages)):
-                try:
-                    # Удаляем пакет
-                    os.system("apt-get -qq remove" + remove_packages[i] + " &> /dev/null")
-                    # Увеличиваем процент выполнения
-                    self.progress_bar(task_name, self.temp_percent + (25 / len(remove_packages) * i))
-                except Exception:
-                    log("Ошибка при удалении пакета " + remove_packages[i])
+        if len(remove_packages) != 0:
+            print("Собираюсь удалить пакеты: " + str(remove_packages))
+            print("Подтвердите удаление пакетов! Введите Да\нет")
+            answer = input().lower
+
+            if answer == "да" or answer == "д" or answer == "y" or answer == "":
+                os.system("clear")
+                task_name = "Удаляю пакеты"
+                print()
+                for i in range(0, len(remove_packages)):
+                    try:
+                        # Удаляем пакет
+                        os.system("apt-get -qq remove" + remove_packages[i] + " &> /dev/null")
+                        # Увеличиваем процент выполнения
+                        self.progress_bar(task_name, self.temp_percent + (25 / len(remove_packages) * i))
+                    except Exception:
+                        log("Ошибка при удалении пакета " + remove_packages[i])
 
         # Устанавливаем выбранные пакеты. Бюджет процентов на все пакеты 60%. С каждым установленным пакетом увеличиваем
         task_name = "Устанавливаю пакеты"
