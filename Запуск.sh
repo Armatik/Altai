@@ -1,3 +1,4 @@
+#!/bin/sh
 scriptdir=$(dirname "$0")
 echo "Запуск Алтая! Введите пароль от root:"
 su - -c "cd $scriptdir/src && python3 main.py"
