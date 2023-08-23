@@ -130,7 +130,7 @@ class Core:
                         # Удаляем пакет
                         os.system("apt-get -qq remove" + remove_packages[i] + " &> /dev/null")
                         # Увеличиваем процент выполнения
-                        self.progress_bar(task_name, self.temp_percent + (25 / len(remove_packages) * i))
+                        self.progress_bar(task_name, self.temp_percent + (25 / len(remove_packages)))
                     except Exception:
                         log("Ошибка при удалении пакета " + remove_packages[i])
 
@@ -141,7 +141,7 @@ class Core:
                 # Устанавливаем пакет
                 os.system("apt-get -qq install " + install_packages[i] + " &> /dev/null")
                 # Увеличиваем процент выполнения
-                self.progress_bar(task_name, self.temp_percent + (60 / len(install_packages) * i))
+                self.progress_bar(task_name, self.temp_percent + (60 / len(install_packages)))
             except Exception:
                 log("Ошибка при установке пакета " + install_packages[i])
 
@@ -216,7 +216,7 @@ class Core:
                 try:
                     i += 1
                     os.system("cp " + file_list_dict[key] + " " + key)
-                    self.progress_bar(task_name, self.temp_percent + (85 / len(file_list_dict) * i))
+                    self.progress_bar(task_name, self.temp_percent + (85 / len(file_list_dict)))
 
                 except Exception:
                     log("Ошибка при копировании файла " + key)
@@ -241,6 +241,10 @@ class Core:
     def work_with_command(self, file_full_patch):
         task_name = "Работаю с командами"
         self.progress_bar(task_name, 0)
+
+        if file_full_patch == "nosu.txt":
+            self.nosu()
+            return
 
         try:
             # Открываем файл с пакетами
@@ -267,7 +271,7 @@ class Core:
             task_name = "Выполняю команды"
             for i in range(0, command_list_lines_count):
                 try:
-                    if command_list_lines[i].startswith("nosu "):
+                    if command_list_lines[i].startswith("nosu"):
                         # Проверяем наличие файла nosu.txt рядом с файлом core.py
                         if os.path.exists("nosu.txt") != True:
                             # Если файла нет, то создаём его
@@ -275,13 +279,13 @@ class Core:
                             # Разрешаем любому пользователю любой доступ к файлу
                             os.system("chmod 777 nosu.txt")
 
-                        # Открываем файл и добавляем в него команду без nosu
-                        nosu_file = open("nosu.txt", "a")
-                        nosu_file.write(command_list_lines[i].replace("nosu ", ""))
-                        nosu_file.close()
+                        # Открываем файл и добавляем на новую строку команду с командой
+                        nosu = open("nosu.txt", "a")
+                        nosu.write(command_list_lines[i].split(" ", 1)[1])
+                        nosu.close()
                     else:
                         os.system(command_list_lines[i])
-                        self.progress_bar(task_name, self.temp_percent + (97 / command_list_lines_count * i))
+                    self.progress_bar(task_name, self.temp_percent + (97 / command_list_lines_count))
 
                 except Exception:
                     log("Ошибка при выполнении команды " + command_list_lines[i])
@@ -301,3 +305,29 @@ class Core:
         task_name = "Завершаю работу с командами"
         self.progress_bar(task_name, 100)
         time.sleep(2)
+
+
+    def nosu(self):
+        nosu = open("nosu.txt", "r")
+        nosu_lines = nosu.readlines()
+        nosu.close()
+        # Считаем количество строк в файле
+        nosu_lines_count = len(nosu_lines)
+        self.progress_bar("Выполняю команды из под пользователя", 3)
+        # Выполняем команды из файла nosu.txt
+        for i in range(0, nosu_lines_count):
+            if nosu_lines[i].split(" ")[0] == "setwallpaper":
+                # Получаем путь к текущей директории
+                current_dir = os.getcwd()
+                # Получаем путь к файлу с обоями
+                wallpaper_path = current_dir + nosu_lines[i].split(" ")[1]
+                # Устанавливаем обои
+                os.system("gsettings set org.gnome.desktop.background picture-uri " + wallpaper_path)
+                os.system("gsettings set org.gnome.desktop.screensaver picture-uri-dark " + wallpaper_path)
+            else:
+                os.system(nosu_lines[i])
+            self.progress_bar("Выполняю команды из под пользователя", self.temp_percent + (97 / nosu_lines_count))
+        # Удаляем файл nosu.txt
+        os.system("rm nosu.txt")
+
+

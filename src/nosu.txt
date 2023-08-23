@@ -1,0 +1,2 @@
+setwallpaper /author/file/altaiwallpaper.jpg
+setwallpaper /author/file/altaiwallpaper.jpg

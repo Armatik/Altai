@@ -54,6 +54,9 @@ class TerminalSession:
             external = open("text/external.txt", "r")
             print(external.read())
             external.close()
+            if os.path.exists("nosu.txt") == True:
+                print("ВНИМАНИЕ! Алтаю требуется выполнить часть команд от имени пользователя.\n"
+                      "Пожалуйста, при завершении работы с Алтаем, используйте предусмотренную команду: q для выхода.")
             user_choice = input()
             if user_choice == "game":
                 Game(terminal_session=True).run_game_extra_pack()
@@ -65,7 +68,6 @@ class TerminalSession:
                 default.package_update()
 
         if os.path.exists("nosu.txt") != True:
-            #TODO Добавить обозначение использования терминала, а не GUI для не su команд.
             print("Настоятельно рекомендуем перезагрузить компьютер!")
             print("Перезагрузить компьютер сейчас? (Да/нет)")
             answer = input()

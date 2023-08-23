@@ -16,7 +16,7 @@ def check_su_privilages():
             # nosu.nosu_start()
 
             core = Core()
-            core.work_with_command("src/nosu.txt")
+            core.work_with_command("nosu.txt")
             # Если есть файл nosu.txt, то не предлагаем перезагрузку
             print("Настоятельно рекомендуем перезагрузить компьютер для корректной работы пакета author.")
             print("Перезагрузить компьютер сейчас? (Да/нет)")
