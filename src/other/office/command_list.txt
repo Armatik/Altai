@@ -1,2 +1,2 @@
-epm play wpsoffice
+epm --auto play wpsoffice
 ./office/fonts/install.sh
