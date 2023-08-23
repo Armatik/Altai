@@ -1,0 +1,2 @@
+epm play wpsoffice
+./office/fonts/install.sh

@@ -5,6 +5,9 @@ import default
 
 from settings_packs import Author
 from settings_packs import Minimal
+from settings_packs import Game
+from settings_packs import WpsOffice
+from settings_packs import EEPM
 
 
 class TerminalSession:
@@ -16,7 +19,7 @@ class TerminalSession:
 
     def run(self):
         #TODO Подключение конфига
-        print("Запуск Алтая! Издание: Прототип 0.7")
+        print("Запуск Алтая! Издание: Прототип 0.8")
         # Выводим файл приветствия в терминал
         self.print_welcome()
 
@@ -26,23 +29,25 @@ class TerminalSession:
 
 
     def print_welcome(self):
+        eepm = EEPM(terminal_session=True)
+        eepm.run_default_eepm()
+        os.system("clear")
+
         # выводим файл привествия из text/welcome.txt
         welcome_file = open("text/welcome.txt", "r")
         print(welcome_file.read())
         welcome_file.close()
         user_choice = input()
-        if user_choice == "q":
-            self.exit()
-        elif user_choice == "m":
-            default.eepm()
+        if user_choice == "m":
             minimal = Minimal(terminal_session=True)
-            minimal.run_minimal_settings_pack()
+            minimal.run_minimal_base_pack()
         elif user_choice == "a":
-            default.eepm()
             author = Author(terminal_session=True)
-            author.run_author_settings_pack()
+            author.run_author_base_pack()
         elif user_choice == "s":
-            default.eepm()
+            os.system("clear")
+        else:
+            self.exit()
 
         user_choice = "u"
         while user_choice != "q":
@@ -50,11 +55,14 @@ class TerminalSession:
             print(external.read())
             external.close()
             user_choice = input()
+            if user_choice == "game":
+                Game(terminal_session=True).run_game_extra_pack()
+            elif user_choice == "wps":
+                WpsOffice(terminal_session=True).run_wps_office_extra_pack()
             if user_choice == "a":
                 default.AMD_P_State()
             elif user_choice == "u":
                 default.package_update()
-
 
         if os.path.exists("nosu.txt") != True:
             #TODO Добавить обозначение использования терминала, а не GUI для не su команд.

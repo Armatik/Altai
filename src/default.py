@@ -16,25 +16,7 @@ def progress_bar(percent, clear=True):
             print("-", end="")
     # Выводим текущий процент выполнения
     print("] - " + str(percent) + "%")
-    
-    
-def eepm():
-    try:
-        progress_bar(percent=0)
 
-        # Выполняем обновление репозиториев через apt-get update
-        os.system("apt-get -qq update > /dev/null")
-
-        progress_bar(percent=10)
-
-        # Устанавливаем пакеты для работы eepm
-        os.system("apt-get -qq install eepm > /dev/null")
-
-        progress_bar(percent=100)
-        print("Установка базовых пакетов завершена успешно!")
-
-    except:
-        print("Ошибка при установке базовых пакетов! Обратитесь в https://t.me/alt_gnome_chat за помощью.")
 
 def AMD_P_State():
     try:
