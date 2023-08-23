@@ -87,8 +87,8 @@ class Game:
 
     def run_game_extra_pack(self):
         self.install_32_bit_libs()
-        # core = Core(self.terminal_session, self.patch)
-        # core.work_with_package()
+        core = Core(self.terminal_session, self.patch)
+        core.work_with_package()
 
 
 class WpsOffice:
