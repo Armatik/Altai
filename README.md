@@ -1,4 +1,4 @@
-# Алтай - Alati
+# Алтай - Altai
 Alt Armatik Injector
 
 # Что такое Алтай?
