@@ -20,12 +20,12 @@ def log(message):
 
 
 class Core:
-    patch_to_dir = None
+    path_to_dir = None
     terminal_session = None
     temp_percent = 0
 
     def __init__(self, terminal_session=True, patch_to_dir="None"):
-        self.patch_to_dir = patch_to_dir
+        self.path_to_dir = patch_to_dir
         self.terminal_session = terminal_session
         self.temp_percent = 0
 
@@ -58,7 +58,7 @@ class Core:
 
         try:
             # Открываем файл с пакетами
-            package_list = open(self.patch_to_dir + "package_list.txt", "r")
+            package_list = open(self.path_to_dir + "package_list.txt", "r")
             # Считываем все строки из файла
             package_list_lines = package_list.readlines()
             # Закрываем файл
@@ -69,9 +69,9 @@ class Core:
             self.progress_bar(task_name, 3)
 
         except Exception:
-            log("Ошибка при открытии файла " + self.patch_to_dir + "package_list.txt")
+            log("Ошибка при открытии файла " + self.path_to_dir + "package_list.txt")
             if self.terminal_session:
-                print("Ошибка чтения файла " + self.patch_to_dir + "package_list.txt. Подробности в log файле.")
+                print("Ошибка чтения файла " + self.path_to_dir + "package_list.txt. Подробности в log файле.")
                 print("Завершаю выполнения работы с пакетами")
                 time.sleep(5)
             return
@@ -95,7 +95,7 @@ class Core:
                         install_packages.append(package_list_lines[i].split()[1])
 
                 else:
-                    log("Ошибка в синтаксисе файла " + self.patch_to_dir + "package_list.txt. Строка " + str(
+                    log("Ошибка в синтаксисе файла " + self.path_to_dir + "package_list.txt. Строка " + str(
                         i + 1) + " содержит "
                         + str(len(package_list_lines[i].split())) + " элементов вместо 2.")
                     log("Строка: " + package_list_lines[i])
