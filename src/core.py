@@ -1,6 +1,42 @@
 import os
 import time
 
+from rich.progress import Progress
+with Progress() as progress:
+
+
+class Progress:
+    task = None
+    task_name = "Не задан"
+    max_percent = 0
+    temp_percent = 0
+    step = 0
+    terminal_session = True
+
+    def add_task(self, task_name, max_percent, terminal_session=True):
+        self.task = progress.add_task(task_name, total=max_percent)
+        self.task_name = task_name
+        self.max_percent = max_percent
+        self.temp_percent = 0
+        self.step = 0
+
+    def update(self, step):
+        self.step = step
+        progress.update(self.task, advance=step)
+        self.temp_percent += step
+
+    def update_name(self, task_name):
+        self.task_name = task_name
+        progress.update(self.task, description=task_name)
+
+    def finished(self):
+        if self.temp_percent >= self.max_percent:
+            return True
+        else:
+            return False
+
+
+
 
 def log(message):
     current_date = time.strftime("%Y-%m-%d")
@@ -29,32 +65,9 @@ class Core:
         self.terminal_session = terminal_session
         self.temp_percent = 0
 
-    def progress_bar(self, process, percent, clear=True):
-        if self.terminal_session:
-            # Очищаем экран если clear = True
-            if clear:
-                os.system("clear")
-
-            # Округляем процент до целого числа
-
-            print(process + ":")
-
-            # Выводим прогресс бар длинной в 50 символов и заполненный на percent процентов
-            print("[", end="")
-            for i in range(0, 50):
-                if i < percent / 2:
-                    print("#", end="")
-                else:
-                    print("-", end="")
-            # Выводим текущий процент выполнения
-            print("] - " + str(int(percent)) + "%")
-            self.temp_percent = percent
-            if percent == 100:
-                self.temp_percent = 0
-
     def work_with_package(self):
-        task_name = "Работаю с пакетами"
-        self.progress_bar(task_name, 0)
+        task = Progress().add_task("Работаю с пакетами", 100, self.terminal_session)
+        task.update(0)
 
         try:
             # Открываем файл с пакетами
@@ -66,7 +79,7 @@ class Core:
 
             # Считаем количество строк в файле
             package_list_lines_count = len(package_list_lines)
-            self.progress_bar(task_name, 3)
+            task.update(3)
 
         except Exception:
             log("Ошибка при открытии файла " + self.path_to_dir + "package_list.txt")

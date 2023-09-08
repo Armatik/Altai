@@ -2,6 +2,8 @@ import os
 import sys
 from terminal_session import TerminalSession
 from core import Core
+import importlib.util
+from time import sleep
 # from nosu import Nosu
 
 
